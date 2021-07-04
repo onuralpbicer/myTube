@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { createUseStyles } from 'react-jss'
 import { Route, Switch } from 'react-router-dom'
 import Header from './Header/Header'
-import PageContent from './shared/PageContent'
+import PageContent from './MainPage/PageContent'
 import Watch from './WatchPage/Watch'
 
 const useStyles = createUseStyles({

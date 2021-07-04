@@ -1,7 +1,7 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { useRedirect } from '../../hooks/useRedirect'
-import Thumbnail from './Thumbnail'
+import Thumbnail from '../shared/Thumbnail'
 
 const useStyles = createUseStyles({
 	container: {
