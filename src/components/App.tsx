@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { createUseStyles } from 'react-jss'
-import Header from './Header'
-import PageContent from './PageContent'
+import { Route, Switch } from 'react-router-dom'
+import Header from './Header/Header'
+import PageContent from './shared/PageContent'
+import Watch from './WatchPage/Watch'
 
 const useStyles = createUseStyles({
 	container: {
@@ -23,8 +25,16 @@ const App = (): JSX.Element => {
 	return (
 		<div className={classes.container}>
 			<Header toggleMenu={toggleMenu} />
-			<div>left side</div>
-			<PageContent />
+			<Switch>
+				<Route exact path="/watch">
+					<Watch />
+				</Route>
+
+				<Route path="*">
+					<div>left side</div>
+					<PageContent />
+				</Route>
+			</Switch>
 		</div>
 	)
 }

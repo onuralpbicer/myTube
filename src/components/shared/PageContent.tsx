@@ -1,5 +1,6 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
+import { useRedirect } from '../../hooks/useRedirect'
 import Thumbnail from './Thumbnail'
 
 const useStyles = createUseStyles({
@@ -30,11 +31,14 @@ const useStyles = createUseStyles({
 const PageContent = (): JSX.Element => {
 	const classes = useStyles()
 
-	console.log(document.body.clientWidth)
+	const redirect = useRedirect()
 	return (
 		<div className={classes.container}>
 			{Array.from({ length: 30 }, (_v, index) => index).map((index) => (
-				<Thumbnail key={index} />
+				<Thumbnail
+					key={index}
+					onThumbnailClick={() => redirect('/watch?v=eWbqjLkTQrM')}
+				/>
 			))}
 		</div>
 	)

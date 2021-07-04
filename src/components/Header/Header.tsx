@@ -1,13 +1,13 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
-import IconButton from './IconButton'
+import IconButton from '../shared/IconButton'
 import MenuIcon from 'mdi-react/MenuIcon'
 import YoutubeIcon from 'mdi-react/YoutubeIcon'
 import SearchInput from './SearchInput'
 import CameraIcon from 'mdi-react/CameraIcon'
 import DotsGridIcon from 'mdi-react/DotsGridIcon'
 import BellIcon from 'mdi-react/BellIcon'
-import { useMediaQueryWidth } from '../hooks/useMediaQuery'
+import { Link, useLocation } from 'react-router-dom'
 
 const useStyles = createUseStyles({
 	header: {
@@ -22,6 +22,8 @@ const useStyles = createUseStyles({
 		alignItems: 'center',
 		fontSize: '1.2em',
 		fontWeight: 600,
+		textDecoration: 'none',
+		color: 'black',
 	},
 	searchArea: {
 		flexGrow: 1,
@@ -48,18 +50,21 @@ const Header = (props: HeaderProps): JSX.Element => {
 	const classes = useStyles()
 	const { toggleMenu } = props
 
-	const test = useMediaQueryWidth()
-	console.log(test)
+	const location = useLocation()
 
 	return (
 		<header className={classes.header}>
 			<IconButton onClick={toggleMenu}>
 				<MenuIcon />
 			</IconButton>
-			<span className={classes.youtubeIcon}>
+			<Link
+				to="/"
+				replace={location.pathname === '/'}
+				className={classes.youtubeIcon}
+			>
 				<YoutubeIcon size="1.8em" color="red" />
 				MyTube
-			</span>
+			</Link>
 			<div className={classes.searchArea}>
 				<SearchInput onClickSearch={(str) => console.log('search this', str)} />
 			</div>

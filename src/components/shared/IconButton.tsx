@@ -1,6 +1,6 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
-import { ComponentWithChildren } from '../types/util'
+import { ComponentWithChildren } from '../../types/util'
 import clsx from 'clsx'
 
 const useStyles = createUseStyles({
