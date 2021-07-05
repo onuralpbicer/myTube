@@ -2,6 +2,7 @@ import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { useRedirect } from '../../hooks/useRedirect'
 import Thumbnail from '../shared/Thumbnail'
+import { usePopularVideos } from './load'
 
 const useStyles = createUseStyles({
 	container: {
@@ -31,15 +32,22 @@ const useStyles = createUseStyles({
 const PageContent = (): JSX.Element => {
 	const classes = useStyles()
 
+	const { isLoading, data: videos } = usePopularVideos()
+
 	const redirect = useRedirect()
 	return (
 		<div className={classes.container}>
-			{Array.from({ length: 30 }, (_v, index) => index).map((index) => (
-				<Thumbnail
-					key={index}
-					onThumbnailClick={() => redirect('/watch?v=eWbqjLkTQrM')}
-				/>
-			))}
+			{isLoading || !videos ? (
+				<span>Loading...</span>
+			) : (
+				videos.items.map((video, index) => (
+					<Thumbnail
+						key={index}
+						video={video}
+						onThumbnailClick={() => redirect(`/watch?v=${video.id}`)}
+					/>
+				))
+			)}
 		</div>
 	)
 }

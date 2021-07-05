@@ -1,31 +1,45 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
+import { YTVideo } from '../../types/youtube'
 
 const useStyles = createUseStyles({
-	thumbnail: {
+	thumbnail: (props: ThumbnailProps) => ({
 		overflow: 'hidden',
 		height: 0,
 		paddingTop: '56%',
-		background: 'lightgray',
+		// background: 'lightgray',
 		cursor: 'pointer',
 		'&:hover': {
-			background: 'gray',
+			backgroundImage: `linear-gradient(
+            rgba(0, 0, 0, 0.45), 
+            rgba(0, 0, 0, 0.45)
+            ), url(${props.video.snippet.thumbnails.high.url})`,
 		},
+		backgroundImage: `url(${props.video.snippet.thumbnails.high.url})`,
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
+		backgroundPosition: 'center',
+	}),
+	videoTitle: {
+		fontWeight: 700,
 	},
+	channelTitle: {},
 })
 
 interface ThumbnailProps {
+	video: YTVideo
 	onThumbnailClick?: (event: React.MouseEvent<HTMLDivElement>) => void
 }
 
 const Thumbnail = (props: ThumbnailProps): JSX.Element => {
-	const classes = useStyles()
-	const { onThumbnailClick } = props
+	const classes = useStyles(props)
+	const { onThumbnailClick, video } = props
+
 	return (
 		<div>
 			<div className={classes.thumbnail} onClick={onThumbnailClick}></div>
-			<div>Video Title Hello</div>
-			<div>Channel Name</div>
+			<div className={classes.videoTitle}>{video.snippet.title}</div>
+			<div className={classes.channelTitle}>{video.snippet.channelTitle}</div>
 		</div>
 	)
 }
