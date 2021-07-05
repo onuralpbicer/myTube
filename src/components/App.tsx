@@ -7,10 +7,14 @@ import Watch from './WatchPage/Watch'
 
 const useStyles = createUseStyles({
 	container: {
-		display: 'grid',
-		gridTemplateColumns: '240px auto',
+		display: 'flex',
 		height: '100vh',
-		gridTemplateRows: 'max-content auto',
+		flexDirection: 'column',
+	},
+	mainContentContainer: {
+		display: 'flex',
+		height: '100%',
+		overflow: 'auto',
 	},
 })
 
@@ -35,8 +39,10 @@ const App = (): JSX.Element => {
 				</Route>
 
 				<Route path="*">
-					<div>left side</div>
-					<PageContent />
+					<div className={classes.mainContentContainer}>
+						<div style={{ width: '240px', flexShrink: 0 }}>left side</div>
+						<PageContent />
+					</div>
 				</Route>
 			</Switch>
 		</div>

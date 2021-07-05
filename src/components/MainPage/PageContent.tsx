@@ -1,6 +1,5 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
-import { useRedirect } from '../../hooks/useRedirect'
 import Thumbnail from '../shared/Thumbnail'
 import { usePopularVideos } from './load'
 
@@ -9,8 +8,10 @@ const useStyles = createUseStyles({
 		backgroundColor: 'rgb(248, 248, 248)',
 		padding: '1em',
 		display: 'flex',
+		width: '100%',
 		gap: '1em',
 		flexWrap: 'wrap',
+		overflow: 'auto',
 		'& > *': {
 			'@media (min-width: 0px)': {
 				flexBasis: '99%',
@@ -25,7 +26,6 @@ const useStyles = createUseStyles({
 				flexBasis: '24%',
 			},
 		},
-		overflow: 'auto',
 	},
 })
 
@@ -34,18 +34,13 @@ const PageContent = (): JSX.Element => {
 
 	const { isLoading, data: videos } = usePopularVideos()
 
-	const redirect = useRedirect()
 	return (
 		<div className={classes.container}>
 			{isLoading || !videos ? (
-				<span>Loading...</span>
+				<div>Loading...</div>
 			) : (
 				videos.items.map((video, index) => (
-					<Thumbnail
-						key={index}
-						video={video}
-						onThumbnailClick={() => redirect(`/watch?v=${video.id}`)}
-					/>
+					<Thumbnail key={index} video={video} />
 				))
 			)}
 		</div>

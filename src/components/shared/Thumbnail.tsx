@@ -1,9 +1,24 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
+import { useRedirect } from '../../hooks/useRedirect'
 import { YTVideo } from '../../types/youtube'
 
 const useStyles = createUseStyles({
+	container: (props: ThumbnailProps) => ({
+		gridTemplateAreas: `
+          "thumb title"
+          "thumb channel"
+          "thumb empty"
+          "thumb empty"
+        `,
+		gridTemplateColumns: '50% auto',
+		gridTemplateRows: 'repeat(3, min-content)',
+		display: props.recommended ? 'grid' : 'block',
+		marginBottom: props.recommended ? '1em' : 0,
+		gap: '0.5em',
+	}),
 	thumbnail: (props: ThumbnailProps) => ({
+		gridArea: 'thumb',
 		overflow: 'hidden',
 		height: 0,
 		paddingTop: '56%',
@@ -21,24 +36,39 @@ const useStyles = createUseStyles({
 		backgroundPosition: 'center',
 	}),
 	videoTitle: {
+		gridArea: 'title',
 		fontWeight: 700,
+		cursor: 'pointer',
+		display: '-webkit-box',
+		'-webkit-line-clamp': 2,
+		'-webkit-box-orient': 'vertical',
+		overflow: 'hidden',
 	},
-	channelTitle: {},
+	channelTitle: {
+		gridArea: 'channel',
+	},
 })
 
 interface ThumbnailProps {
 	video: YTVideo
-	onThumbnailClick?: (event: React.MouseEvent<HTMLDivElement>) => void
+	recommended?: boolean
 }
 
 const Thumbnail = (props: ThumbnailProps): JSX.Element => {
 	const classes = useStyles(props)
-	const { onThumbnailClick, video } = props
+	const { video } = props
+	const redirect = useRedirect()
+
+	const handleVideoClick = () => {
+		redirect(`/watch?v=${video.id}`)
+	}
 
 	return (
-		<div>
-			<div className={classes.thumbnail} onClick={onThumbnailClick}></div>
-			<div className={classes.videoTitle}>{video.snippet.title}</div>
+		<div className={classes.container}>
+			<div className={classes.thumbnail} onClick={handleVideoClick}></div>
+			<div className={classes.videoTitle} onClick={handleVideoClick}>
+				{video.snippet.title}
+			</div>
 			<div className={classes.channelTitle}>{video.snippet.channelTitle}</div>
 		</div>
 	)
